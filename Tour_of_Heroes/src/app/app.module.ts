@@ -12,7 +12,6 @@ import { HeroDetailComponent } from './hero-detail/hero-detail.component';
 import { MessagesComponent } from './messages/messages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HeroSearchComponent } from './hero-search/hero-search.component';
-import { ProfileFormComponent } from './profile-form/profile-form.component';
 import { ProfileNgformComponent } from './profile-ngform/profile-ngform.component';
 import { ProfileDialog } from './profile-ngform/profile-dialog';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -25,7 +24,6 @@ import { MatDialogModule } from '@angular/material/dialog';
     MessagesComponent,
     DashboardComponent,
     HeroSearchComponent,
-    ProfileFormComponent,
     ProfileNgformComponent,
     ProfileDialog,
   ],
