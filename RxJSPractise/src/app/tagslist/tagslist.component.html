@@ -1,0 +1,5 @@
+<h1>TagsList</h1>
+<div *ngFor="let tag of tagslist$ | async">
+  <label>標籤：{{tag.name}}</label><br>
+  <label>電影名稱：{{tag.movieNames.join(', ')}}</label>
+</div>
