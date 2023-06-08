@@ -1,44 +1,4 @@
-<!-- <button>建立專案</button> -->
-<form [formGroup]="projectForm">
-  <div>
-    <label>編號</label>
-    <input type="number" formControlName="id"/>
-    <label>訂單編號</label>
-    <input type="number" formControlName="taskid"/>
-    <label>採購編號</label>
-    <input type="number" formControlName="purchaseid"/>
-  </div><br/>
-  <div>
-    <label>沖壓期間</label>
-    <input type="date" formControlName="workday">
-    <label>納期</label>
-    <input type="date" formControlName="deadline">
-  </div><br/>
-  <div>
-    <label>品番號碼</label>
-    <select formControlName="productId">
-      <option value="" selected>請選擇品項</option>
-      <option *ngFor="let product of products" [value]="product.id">
-        {{ product.name }}
-      </option>
-    </select>
-  </div><br/>
-  <div>
-    <label>客戶</label>
-    <select formControlName="customerId">
-      <option value="" selected>選擇客戶</option>
-      <option *ngFor="let customer of customers" [value]="customer.id" >
-        {{ customer.name }}
-      </option>
-    </select>
-    <label>電話 {{ getCustomerPhoneNumber() }}</label>
-  </div>
-  <div>
-    <label>訂單數量</label>
-    <input type="number" [placeholder]="'輸入數量'" formControlName="taskquantity">
-    <label >庫存數量 {{ getProductInventory() }}</label>
-    <label >材料重量 {{ getProductMaterialweight() }}</label>
-    <label >可產數量 {{ getProductionQuantity() }}</label>
-  </div>
-</form>
-<!-- <button (click)="show()">debug</button> -->
+<!-- <button (click)="onshow()">建立專案</button>
+<button (click)="onadd()">add</button>
+<div *ngFor="let projectInfo of projectsInfo">{{ projectInfo | json }}</div> -->
+<app-test></app-test>

@@ -1,63 +1,42 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { Customers } from './_data/customer-data';
-import { Products } from './_data/product-data';
+import { Component ,OnInit} from '@angular/core';
 import { Customer, ProjectInfo } from './_type/project-info';
+import { MatDialog } from '@angular/material/dialog';
+import { ProjectFormDialogComponent } from './project-form-dialog/project-form-dialog.component';
+import { ProjectFormService } from './project-form.service';
+import { BehaviorSubject, Subject, scan } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'YaoTaiForm';
-  projectsInfo?: ProjectInfo[];
-  customers = Customers;
-  products = Products;
-  
-  projectForm = new FormGroup({
-    id: new FormControl(''),
-    taskid: new FormControl(''),
-    purchaseid: new FormControl(''),
-    workday: new FormControl(''),
-    deadline: new FormControl(''),
-    productId: new FormControl(),
-    customerId: new FormControl(),
-    taskquantity: new FormControl(''),
-  })
-  
+  projectsInfo: ProjectInfo[] = [];
 
+  num: number = 0; 
+  bsubject: BehaviorSubject<number> = new BehaviorSubject(0);
+  subject = new Subject<number>();
 
-  constructor() {}
-
-  // show(){
-  //   console.log(this.projectForm.value.customerId);
-  //   console.log(typeof this.projectForm.value.customerId);
-  // }
-
-  getCustomerPhoneNumber(): string {
-    const customer = this.customers.find(c => c.id === +this.projectForm.value.customerId);
-    return customer ? customer.phonenumber : '';
+  constructor(private _dialog: MatDialog, private _projectFormService: ProjectFormService) {
+    this.bsubject.subscribe((num) => console.log('Rxnum = ' + num))
+    console.log(this.num);
   }
 
-  getProductInventory(): string {
-    const product = this.products.find(p => p.id === +this.projectForm.value.productId);
-    return product ? product.inventory : '';
+  ngOnInit(): void {
+    this.projectsInfo = this._projectFormService.getProjectInfo();
   }
 
-  getProductMaterialweight(): string {
-    const product = this.products.find(p => p.id === +this.projectForm.value.productId);
-    return product ? product.materialweight : '';
+  onshow(){
+    this._dialog.open(ProjectFormDialogComponent, {
+      width: '50%',
+    });
   }
 
-  getProductionQuantity(): string {
-    const product = this.products.find(p => p.id === +this.projectForm.value.productId);
-    return product ? product.productionquantity : '';
+  onadd(): void{
+    this.num = this.num + 2;
+    this.bsubject.next(this.bsubject.getValue()+1);
+    console.log('mynum = ' + this.num);
   }
-
-  // onadd(){
-  //   projectInfo: Pro
-  //   this.projectsInfo?.push()
-  // }
 
 }

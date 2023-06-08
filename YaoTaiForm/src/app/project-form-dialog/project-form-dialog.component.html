@@ -1,0 +1,51 @@
+<form [formGroup]="projectForm">
+    <div>
+      <label>編號  
+      <input formControlName="id"/>
+      <label *ngIf="projectForm.controls.id.errors?.['required']">id is required.</label>
+      <label *ngIf="projectForm.controls.id.errors?.['pattern']">id is number only.</label>
+    </label>
+      <label>訂單編號  </label>
+      <input type="number" formControlName="taskid"/>
+      <label>採購編號  </label>
+      <input type="number" formControlName="purchaseid"/>
+    </div><br/>
+    <div>
+      <label>沖壓期間  </label>
+      <input type="date" formControlName="workday">
+      <label>納期  </label>
+      <input type="date" formControlName="deadline">
+    </div><br/>
+    <div>
+      <label>品番號碼  </label>
+      <select formControlName="product">
+        <option value="" selected>請選擇品項</option>
+        <option *ngFor="let product of products" [ngValue]="product">
+          {{ product.name }}
+        </option>
+      </select>
+    </div><br/>
+    <div>
+      <label>客戶  </label>
+      <select formControlName="customer">
+        <option value="" selected>選擇客戶</option>
+        <option *ngFor="let customer of customers" [ngValue]="customer">
+          {{ customer.name }}
+        </option>
+      </select>
+      <label>電話  {{ this.projectForm.value.customer?.phonenumber }}</label>
+    </div>
+    <div>
+      <label>訂單數量  </label>
+      <input type="number" [placeholder]="'輸入數量'" formControlName="taskquantity">
+      <label >庫存數量  {{ this.projectForm.value.product?.inventory }}</label>
+      <label >材料重量  {{ this.projectForm.value.product?.materialweight }}</label>
+      <label >可產數量  {{ this.projectForm.value.product?.productionquantity }}</label>
+    </div>
+  </form>
+  <div class="button-container">
+    <button (click)="ondebug()">debug</button>
+    <button (click)="oncancel(); projectForm.reset()">取消</button>
+    <button [disabled]="projectForm.invalid" (click)="onsave(); projectForm.reset()">儲存</button>
+  </div>
+  
