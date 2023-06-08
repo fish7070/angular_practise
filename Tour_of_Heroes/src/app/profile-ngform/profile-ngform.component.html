@@ -1,0 +1,32 @@
+<form [formGroup]="profileForm">
+  <div class="form-group">
+    <label class="form-label">姓名：</label>
+    <input class="form-control" type="text" formControlName="name" /><br />
+    <div *ngIf="profileForm.controls.name.errors?.['required']">Name is required.</div>
+  </div>
+  <div class="form-group">
+    <label class="form-label">年齡：</label>
+    <input class="form-control" type="text" formControlName="age"/><br />
+    <div *ngIf="profileForm.controls.age.errors?.['pattern']">Age must be a number.</div>
+  </div>
+  <div class="form-group">
+    <label class="form-label">性別：</label>
+    <div class="form-control" >
+      <label><input type="radio" value="male" formControlName="sex"/>男性</label>
+      <label><input type="radio" value="female" formControlName="sex"/>女性</label>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="form-label">國家：</label>
+    <select class="form-control" formControlName="country">
+      <option value="" selected>請選擇國家</option>
+      <option *ngFor="let country of countries" [value]="country">
+        {{ country }}
+      </option>
+    </select>
+  </div>
+  <div class="form-group">
+    <button class="form-button" (click)="showInfo()">show</button>
+    <button type="reset" >reset</button>
+  </div>
+</form>
