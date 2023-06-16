@@ -1,0 +1,10 @@
+<h1>BookList</h1>
+<ul>
+    <li *ngFor="let book of books">
+        <a routerLink="/bookdetail/{{book.id}}">
+            {{book.title}}
+        </a>
+    </li>
+</ul>
+
+<app-book-search></app-book-search>

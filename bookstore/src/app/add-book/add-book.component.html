@@ -1,0 +1,12 @@
+<form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
+    <label>Id：{{bookForm.value.id}}</label><br>
+    <label>Title：</label>
+    <input formControlName="title"><br>
+    <label>Author：</label>
+    <input formControlName="author"><br>
+    <label>PublishDate：</label>
+    <input formControlName="publishDate"><br>
+    <button type="submit">新增書籍</button>
+  </form>
+  <!-- <button (click)="onSubmit()">新增書籍</button> -->
+  
