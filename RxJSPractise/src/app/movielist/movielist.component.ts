@@ -14,6 +14,7 @@ export class MovielistComponent implements OnInit {
   tags$!: Observable<Tag[]>;
 
   movieslist$!: any;
+  temp: any;
 
   constructor(private moviesdataservice: MoviedataService) {}
 
@@ -21,15 +22,18 @@ export class MovielistComponent implements OnInit {
     this.getMovies();
     this.getTags();
 
-    this.movieslist$ = combineLatest([this.movies$, this.tags$]).pipe(
-      map(([movies, tags]) => {
-        return movies.map(movie => ({
-          ...movie,
-          tagNames: movie.tagsId.map(tagId => 
-            (tags.find(tag => tag.id === tagId) || {}).name)
-        }));
-      }),
-    )
+    // this.movieslist$ = combineLatest([this.movies$, this.tags$]).pipe(
+    //   map(([movies, tags]) => {
+    //     return movies.map(movie => ({
+    //       ...movie,
+    //       tagNames: movie.tagsId.map(tagId => 
+    //         (tags.find(tag => tag.id === tagId) || {}).name)
+    //     }));
+    //   }),
+    // )
+    this.temp = combineLatest([this.movies$, this.tags$]);
+    console.log(this.temp);
+
   }
 
   getMovies(): void {

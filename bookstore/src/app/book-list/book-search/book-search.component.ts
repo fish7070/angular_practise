@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { BookService } from '../book.service';
-import { Book } from '../_type/book.Interface';
+import { BookService } from '../../book.service';
+import { Book } from '../../_type/book.Interface';
 import { Observable, Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 
 @Component({

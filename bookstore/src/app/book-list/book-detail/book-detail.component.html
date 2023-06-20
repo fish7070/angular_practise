@@ -18,6 +18,6 @@
         PublishDate is required
     </div>
   </div>
-  <button type="button" (click)="delete(book.id)">delete</button>
-  <button type="button" (click)="save()" [disabled]="title.invalid || author.invalid || publishDate.invalid">save</button>
+  <button type="button" (click)="onDelete()">delete</button>
+  <button type="button" (click)="onSave()" [disabled]="title.invalid || author.invalid || publishDate.invalid">save</button>
 </div>

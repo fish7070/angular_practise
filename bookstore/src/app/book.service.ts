@@ -2,47 +2,45 @@ import { Injectable } from '@angular/core';
 import { BOOKS } from './_data/books';
 import { Book } from './_type/book.Interface';
 import { Observable, of } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BookService {
-  books = BOOKS;
+  private booksUrl = 'api/books';
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application'})
+  };
+  constructor(private _http: HttpClient) { }
 
-  constructor() { }
-
-  getBooks(): Book[]{
-    return this.books;
+  getBooks(): Observable<Book[]>{
+    return this._http.get<Book[]>(this.booksUrl);
   }
 
-  getBook(id: number): Book{
-    return this.books.find(book => book.id === id)!;
+  getBook(id: number): Observable<Book>{
+    const url = `${this.booksUrl}/${id}`;
+    return this._http.get<Book>(url);
   }
 
-  updateBook(book: Book): void {
-    const index = this.books.findIndex(b => b.id === book.id);
-    if (index > -1) {
-      this.books.splice(index, 1, book);
-    }
+  updateBook(book: Book): Observable<any> {
+    return this._http.put(this.booksUrl, book, this.httpOptions);
   }
   
 
-  addBook(book:Book): void {
-    this.books.push(book);
+  addBook(book:Book): Observable<Book> {
+    return this._http.post<Book>(this.booksUrl, book, this.httpOptions);
   }
 
-  deleteBook(id: number): void {
-    const index = this.books.findIndex(b => b.id === id);
-    if (index > -1) {
-      this.books.splice(index, 1);
-    }
+  deleteBook(id: number): Observable<Book> {
+    const url = `${this.booksUrl}/${id}`;
+    return this._http.delete<Book>(url, this.httpOptions);
   }
 
   searchBooks(term: string): Observable<Book[]> {
     if (!term.trim()) {
       return of([]);
     }
-    term = term.toLowerCase();
-    return of(this.books.filter(book => book.title.toLowerCase().includes(term) || book.author.toLowerCase().includes(term)));
+    return this._http.get<Book[]>(`${this.booksUrl}/?name=${term}`)
   }
 }

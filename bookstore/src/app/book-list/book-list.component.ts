@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BookService } from '../book.service';
 import { Book } from '../_type/book.Interface';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-book-list',
@@ -8,7 +9,8 @@ import { Book } from '../_type/book.Interface';
   styleUrls: ['./book-list.component.css']
 })
 export class BookListComponent implements OnInit{
-  books!: Book[];
+  books$!: Observable<Book[]>;
+  selectedBook?: Book;
 
   constructor(private _bookService: BookService ){}
 
@@ -17,8 +19,22 @@ export class BookListComponent implements OnInit{
   }
 
   getBooks(){
-    this.books = this._bookService.getBooks();
+    this.books$ = this._bookService.getBooks();
   }
 
+  selectBook(book: Book): void {
+    this.selectedBook = book;
+  }
 
+  onChangeDetail(): void {
+    console.log("CD")
+    this._bookService.updateBook(this.selectedBook!).subscribe();
+    this.selectedBook = undefined;
+  }
+
+  onDeleteDetail(): void {
+    console.log("DD")
+    this._bookService.deleteBook(this.selectedBook!.id).subscribe();
+    this.selectedBook = undefined;
+  }
 }

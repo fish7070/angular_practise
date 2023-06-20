@@ -11,7 +11,6 @@ import { Location } from '@angular/common';
 })
 export class AddBookComponent implements OnInit {
   bookForm: any;
-  books: any;
   constructor(
     private _formBuilder: FormBuilder,
     private _bookService: BookService,
@@ -19,17 +18,11 @@ export class AddBookComponent implements OnInit {
     ) {}
 
   ngOnInit(): void {
-    this.getBooks();
-    this.bookForm = this._formBuilder.group({
-      id: this.books.length + 1,
+      this.bookForm = this._formBuilder.group({
       title: '',
       author: '',
       publishDate: '',
     });
-  }
-
-  getBooks(){
-    this.books = this._bookService.getBooks();
   }
 
   goback(){
@@ -38,7 +31,11 @@ export class AddBookComponent implements OnInit {
 
   onSubmit() {
     const newBook: Book = this.bookForm.value;
-    this._bookService.addBook(newBook);
+    console.log('newBook'+ newBook.id);
+    console.log('newBook'+ newBook.title);
+    console.log('newBook'+ newBook.author);
+    console.log('newBook'+ newBook.publishDate);
+    this._bookService.addBook(newBook).subscribe();
     this.goback();
     console.log("submit");
   }
