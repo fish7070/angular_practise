@@ -1,0 +1,15 @@
+<h1>Book Manage</h1>
+<button routerLink="/addbook">add</button>
+<button (click)="deleteSelectedBooks()">delete</button>
+
+<app-book-search 
+(searchValue)="searchBook($event)"
+></app-book-search>
+
+<app-books-list
+ [books]="books"
+ [deleteCompleted]="deleteCompleted$"
+ (selectBooks)="getSelectedBooks($event)"
+ (changeDetail)="updateBookdetail($event)"
+></app-books-list>
+

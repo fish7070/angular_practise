@@ -31,10 +31,6 @@ export class AddBookComponent implements OnInit {
 
   onSubmit() {
     const newBook: Book = this.bookForm.value;
-    console.log('newBook'+ newBook.id);
-    console.log('newBook'+ newBook.title);
-    console.log('newBook'+ newBook.author);
-    console.log('newBook'+ newBook.publishDate);
     this._bookService.addBook(newBook).subscribe();
     this.goback();
     console.log("submit");

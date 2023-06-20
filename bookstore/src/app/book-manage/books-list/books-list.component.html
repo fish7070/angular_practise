@@ -1,0 +1,17 @@
+<div *ngIf="!selectedBook">
+    <h3>BookList</h3>
+    <ul>
+      <li *ngFor="let book of books; index as i" >
+        <input type="checkbox" (click)="$event.stopPropagation()" (change)="updateSelectedBooks(i, $event)" > 
+        <a (click)="selectBook(book)">
+          {{ book.title }}
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <app-book-detail
+  [book]="selectedBook"
+  (saveChange)="onChangeDetail($event)"
+  (cancel)="onChangeCancel()"
+></app-book-detail>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BOOKS } from './_data/books';
 import { Book } from './_type/book.Interface';
-import { Observable, of } from 'rxjs';
+import { Observable, forkJoin, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
@@ -37,10 +37,21 @@ export class BookService {
     return this._http.delete<Book>(url, this.httpOptions);
   }
 
+  deleteBooks(ids: number[]): Observable<Book[]> {
+    const deleteRequests = ids.map(id => {
+      const url = `${this.booksUrl}/${id}`;
+      return this._http.delete<Book>(url, this.httpOptions);
+    });
+  
+    return forkJoin(deleteRequests);
+  }
+  
+
   searchBooks(term: string): Observable<Book[]> {
+    console.log("searchService")
     if (!term.trim()) {
-      return of([]);
+      return this._http.get<Book[]>(this.booksUrl);
     }
-    return this._http.get<Book[]>(`${this.booksUrl}/?name=${term}`)
+    return this._http.get<Book[]>(`${this.booksUrl}/?title=${term}`)
   }
 }

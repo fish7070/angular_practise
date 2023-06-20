@@ -1,0 +1,24 @@
+<form *ngIf="book" #bookdetail="ngForm">
+  <h2>{{ book.title | uppercase }} Details</h2>
+  <div><span>Id:</span>{{ book.id }}</div>
+  <input type="hidden" name="id" [ngModel]="book.id">
+  <div>
+    <label>Book title:</label>
+    <input name="title" required [ngModel]="book.title" #title="ngModel" />
+    <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
+        Book title is required
+    </div><br>
+    <label>Author:</label>
+    <input name="author" required [ngModel]="book.author" #author="ngModel" />
+    <div [hidden]="author.valid || author.pristine" class="alert alert-danger">
+        author is required
+    </div><br>
+    <label>PublishDate":</label>
+    <input name="publishDate" required [ngModel]="book.publishDate" #publishDate="ngModel" />
+    <div [hidden]="publishDate.valid || publishDate.pristine" class="alert alert-danger">
+        PublishDate is required
+    </div>
+  </div>
+  <button type="button" (click)="onCancel()">cancel</button>
+  <button type="button" (click)="onSave(bookdetail)" [disabled]="title.invalid || author.invalid || publishDate.invalid">save</button>
+</form>
