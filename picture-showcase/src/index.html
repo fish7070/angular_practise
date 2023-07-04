@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>PictureShowcase</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+  </head>
+  <body>
+    <div id="top-bar">這是置頂的 bar</div>
+    <div id="sidebar">
+      <div class="nav-item" onclick="selectNavItem(this)">
+        <img src="assets/icons/home1.png" class="icon-default" />
+        <img src="assets/icons/home.png" class="icon-selected" /><br />
+        選項 1
+      </div>
+      <div class="nav-item" onclick="selectNavItem(this)">
+        <img src="assets/icons/home1.png" class="icon-default" />
+        <img src="assets/icons/home.png" class="icon-selected" /><br />
+        選項 2
+      </div>
+      <div class="nav-item" onclick="selectNavItem(this)">
+        <img src="assets/icons/document1.png" class="icon-default" />
+        <img src="assets/icons/document.png" class="icon-selected" /><br />
+        資料集
+      </div>
+      <div class="nav-item" onclick="selectNavItem(this)">
+        <img src="assets/icons/home1.png" class="icon-default" />
+        <img src="assets/icons/home.png" class="icon-selected" /><br />
+        選項 4
+      </div>
+      <!-- 重複上述 div 以建立更多選項 -->
+    </div>
+    <div id="content">
+      <app-root></app-root>
+    </div>
+    <script>
+      function selectNavItem(item) {
+        // 移除所有項目的 'selected' 類別
+        var navItems = document.getElementsByClassName("nav-item");
+        for (var i = 0; i < navItems.length; i++) {
+          navItems[i].classList.remove("selected");
+        }
+
+        // 為被點擊的項目添加 'selected' 類別
+        item.classList.add("selected");
+      }
+    </script>
+  </body>
+</html>

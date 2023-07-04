@@ -1,0 +1,54 @@
+/* You can add global styles to this file, and also import other style files */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: white;
+}
+
+#top-bar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 50px;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #ccc;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+#sidebar {
+    position: fixed;
+    top: 50px; /* 與 top-bar 的高度相同 */
+    width: 80px;
+    height: calc(100% - 50px); /* 減去 top-bar 的高度 */
+    background-color: #f8f8f8;
+    border-right: 1px solid #ccc;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-item {
+    padding: 10px;
+}
+
+.icon-default {
+    display: inline; /* 預設顯示 */
+}
+
+.icon-selected {
+    display: none; /* 預設隱藏 */
+}
+
+.nav-item.selected .icon-default {
+    display: none; /* 當選項被選擇時，隱藏預設圖示 */
+}
+
+.nav-item.selected .icon-selected {
+    display: inline; /* 當選項被選擇時，顯示選擇圖示 */
+}
+
+#content {
+    position: fixed;
+    top: 50px;
+    margin-left: 80px; /* 與 sidebar 的寬度相同 */
+    padding: 20px;
+}

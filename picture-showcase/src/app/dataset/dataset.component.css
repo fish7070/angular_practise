@@ -1,0 +1,17 @@
+#myList {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#myList .item-content {
+    display: flex; /* 使用 Flexbox 佈局 */
+    justify-content: space-between; /* 在內容之間添加等量的空間 */
+    padding: 10px; /* 將 padding 的設定移動到這裡 */
+}
+
+#myList  .item-content p {
+    margin: 0;
+    font-size: 16px;
+    min-width: 100%; /* 設定最小寬度 */
+}

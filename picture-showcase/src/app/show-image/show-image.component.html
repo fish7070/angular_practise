@@ -1,0 +1,9 @@
+<button (click)="nextImagae()">Skip</button>
+<button (click)="submitImage()">Submit</button>
+<div *ngIf="vm">
+  <img
+    [src]="vm.imageList[vm.imageIndex].imageUrl"
+    alt="Image"
+    style="width: 100%; height: 500px"
+  />
+</div>
