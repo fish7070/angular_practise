@@ -1,0 +1,6 @@
+<div *ngFor="let book of bookList">
+    <input type="checkbox" (change)="onCheck($event,book)">
+    <a>{{book.title}}</a>
+</div>
+<a routerLink="/shoppingcar">購物車</a>
+<app-book-small-shopping-car></app-book-small-shopping-car>
