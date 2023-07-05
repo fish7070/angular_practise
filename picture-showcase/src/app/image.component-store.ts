@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
-import { Observable, filter, tap, withLatestFrom } from 'rxjs';
+import { tap } from 'rxjs';
 import { Image } from './_model/image-model';
 
 interface ImageState {
   imageList: Image[];
   imageIndex: number;
+  isLastImage: boolean;
 }
 
 const initState: ImageState = {
   imageList: [],
   imageIndex: 0,
+  isLastImage: false,
 };
 
 @Injectable({
@@ -26,19 +28,28 @@ export class ImageComponentStore extends ComponentStore<ImageState> {
 
   readonly imageIndex$ = this.select((state) => state.imageIndex);
 
-  readonly hasPreviousImage$ = this.select(
-    (state) => state.imageIndex >= 1 && state.imageList.length != 0
-  );
+  readonly isLastImage$ = this.select((state) => state.isLastImage);
 
-  readonly hasNextImage$ = this.select(
-    (state) =>
-      state.imageIndex < state.imageList.length - 1 &&
-      state.imageList.length != 0
-  );
+  // readonly hasPreviousImage$ = this.select(
+  //   (state) => state.imageIndex >= 1 && state.imageList.length != 0
+  // );
+
+  // readonly hasNextImage$ = this.select(
+  //   (state) =>
+  //     state.imageIndex < state.imageList.length - 1 &&
+  //     state.imageList.length != 0
+  // );
+
+  // readonly isLastImage$ = this.select(
+  //   (state) =>
+  //     state.imageIndex == state.imageList.length - 1 &&
+  //     state.imageList.length != 0
+  // );
 
   readonly vm$ = this.select({
     imageList: this.imageList$,
     imageIndex: this.imageIndex$,
+    isLastImage: this.isLastImage$,
   });
 
   //********* select *********
@@ -48,59 +59,45 @@ export class ImageComponentStore extends ComponentStore<ImageState> {
     ...state,
     imageList: imageList,
     imageIndex: 0,
+    isLastImage: false
   }));
 
-  readonly setImageIsEdited = this.updater((state) => {
-    const currentImageList = state.imageList;
-    currentImageList[state.imageIndex].isEdited = true;
+  // readonly setImageIsEdited = this.updater((state) => {
+  //   const currentImageList = state.imageList;
+  //   currentImageList[state.imageIndex].isEdited = true;
 
-    return { ...state, imageList: currentImageList };
-  });
+  //   return { ...state, imageList: currentImageList };
+  // });
 
   readonly setImageIndex = this.updater((state, index: string | number) => ({
     ...state,
     imageIndex: Number(index) || 0,
   }));
 
-  // readonly changNextImage = this.updater((state) => {
-  //   console.log("changNextImage worked!!!")
-  //   if(state.imageIndex < state.imageList.length - 1 &&
-  //     state.imageList.length != 0){
-  //       return {...state, imageIndex: state.imageIndex + 1}
-  //   } else
-  //   return {...state}
-  // })
-
-  // readonly changPreviousImage = this.updater((state) => {
-  //   console.log("changPreviousImage worked!!!")
-  //   if(state.imageIndex >= 1 && state.imageList.length != 0) {
-  //       return {...state, imageIndex: state.imageIndex - 1}
-  //   } else
-  //   return {...state}
-  // })
+  readonly nextImage = this.updater((state) => {
+    const isLastImage = state.imageIndex == state.imageList.length - 1 && state.imageList.length != 0
+    const currentImageIndex = state.imageIndex
+    if(isLastImage) return{...state, isLastImage: true}
+    else return {...state, imageIndex: currentImageIndex+1}
+  })
 
   //********* updater *********
 
   //********* effect *********
 
-  readonly getImageList = this.effect((void$: Observable<void>) => {
-    return void$.pipe(
-      tap(() => {
-        this.setImageList([]);
-        this.setImageIndex(0);
-      })
-    );
-  });
+  // readonly getImageList = this.effect((void$: Observable<void>) => {
+  //   return void$.pipe(
+  //     tap(() => {
+  //       this.setImageList([]);
+  //       this.setImageIndex(0);
+  //     })
+  //   );
+  // });
 
-  readonly nextImage = this.effect((trigger$) => {
+  readonly skipImage = this.effect((trigger$) => {
     return trigger$.pipe(
-      withLatestFrom(this.hasNextImage$),
-      filter(([, hasNextImage]) => {
-        if (!hasNextImage) window.alert('這是最後一張圖片');
-        return hasNextImage;
-      }),
       tap(() => {
-        this.setImageIndex(this.get().imageIndex + 1);
+        this.nextImage();
       })
     );
   });
@@ -108,30 +105,19 @@ export class ImageComponentStore extends ComponentStore<ImageState> {
   readonly submitImage = this.effect((trigger$) => {
     return trigger$.pipe(
       tap(() => {
-        this.setImageIsEdited();
-      }),
-
-      withLatestFrom(this.hasNextImage$),
-      filter(([, hasNextImage]) => {
-        if (!hasNextImage) window.alert('這是最後一張圖片');
-        this.setImageIsEdited();
-        return hasNextImage;
-      }),
-      tap(() => {
-        this.setImageIndex(this.get().imageIndex + 1);
-      })
-    );
-  });
-
-  readonly previousImage = this.effect((trigger$) => {
-    return trigger$.pipe(
-      withLatestFrom(this.hasPreviousImage$),
-      filter(([, hasPreviousImage]) => hasPreviousImage),
-      tap(() => {
-        this.setImageIndex(this.get().imageIndex - 1);
+        this.currentImageList()[this.currentImageIndex()].isEdited = true
+        this.nextImage();
       })
     );
   });
 
   //********* effect *********
+
+  currentImageList(): Image[]{
+    return this.get().imageList;
+  }
+
+  currentImageIndex(): number{
+    return this.get().imageIndex;
+  }
 }
