@@ -19,7 +19,7 @@ export class DatasetComponent implements OnInit, OnDestroy {
     private _datasetCS: DatasetComponentStore,
     private _imageCS: ImageComponentStore
   ) {
-    this._datasetCS.state$.subscribe((s) => console.log(s));
+    // this._datasetCS.state$.subscribe((s) => console.log(s));
   }
 
   ngOnInit(): void {

@@ -51,4 +51,6 @@ body {
     top: 50px;
     margin-left: 80px; /* 與 sidebar 的寬度相同 */
     padding: 20px;
+    width: calc(100% - 150px);
+    height: calc(100% - 50px);
 }
